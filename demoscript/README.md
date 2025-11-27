@@ -18,27 +18,84 @@ cd demoscript
 npm install
 ```
 
+## Recording a Demo (Manual Workflow)
+
+DemoScript executes your demo with perfect timing - you record the screen separately.
+
+### Setup
+
+1. **Terminal window** - where the demo runs (make it look nice, increase font size)
+2. **Screen recorder** - Framecap, OBS, QuickTime, or ScreenFlow
+3. **Teleprompter** - browser window positioned near your camera
+4. **Microphone** - for narration (or record audio separately)
+
+### Step-by-Step
+
+```bash
+# 1. Open terminal, cd to your project
+cd ~/my-project
+
+# 2. Start the teleprompter (in another terminal)
+cd demoscript
+node src/cli.js prompter
+
+# 3. Open http://localhost:3456 in browser, position near camera
+
+# 4. Start your screen recorder (Framecap, OBS, etc.)
+
+# 5. Run the demo (back in your project terminal)
+node /path/to/demoscript/src/cli.js run demo.yaml --prompter
+
+# 6. Follow the teleprompter prompts, speak when it says SPEAK
+
+# 7. Stop screen recorder when demo completes
+
+# 8. Your files:
+#    - Screen recording from your recorder
+#    - recordings/demo-timeline.json (timestamps)
+#    - recordings/demo-markers.json (speech cues)
+#    - recordings/demo-edit-hints.json (zoom/speed hints)
+```
+
+### Tips
+
+- **Font size**: Increase terminal font to 16-18pt for readability
+- **Clean terminal**: Start with `clear` or use the `clear` step type
+- **Window size**: 1920x1080 or 1280x720 work well
+- **Teleprompter position**: Put browser window just above/below camera lens
+- **Test first**: Do a dry run with `--dry-run` to check timing
+
+### Screen Recorders
+
+| Tool | Platform | Notes |
+|------|----------|-------|
+| [Framecap](https://framecap.app) | macOS | Lightweight, CLI-friendly |
+| OBS | All | Free, powerful, steep learning curve |
+| QuickTime | macOS | Built-in, simple |
+| ScreenFlow | macOS | Good editing, paid |
+| SimpleScreenRecorder | Linux | Free, simple |
+
 ## Quick Start
 
 1. **Validate a demo script:**
    ```bash
-   npm run start -- validate examples/hello-world.yaml
+   node src/cli.js validate examples/hello-world.yaml
    ```
 
 2. **Run a demo (dry run):**
    ```bash
-   npm run start -- run examples/hello-world.yaml --dry-run
+   node src/cli.js run examples/hello-world.yaml --dry-run
    ```
 
-3. **Run a demo with teleprompter:**
+3. **Run with teleprompter:**
    ```bash
-   npm run start -- run examples/hello-world.yaml --prompter
+   node src/cli.js run examples/hello-world.yaml --prompter
    ```
-   Then open http://localhost:3456 in a browser positioned near your camera.
+   Open http://localhost:3456 in a browser positioned near your camera.
 
-4. **Start teleprompter standalone:**
+4. **Playback timeline in teleprompter:**
    ```bash
-   npm run start -- prompter --timeline ./recordings/demo-timeline.json
+   node src/cli.js prompter --timeline ./recordings/demo-timeline.json
    ```
 
 ## Demo Script Format
