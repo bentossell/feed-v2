@@ -13,6 +13,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import { parseScript, estimateDuration } from './schema/demo.js';
 import { DemoRunner } from './runner/runner.js';
+import { TerminalRecorder } from './runner/recorder.js';
 import { saveAllOutputs, loadTimeline } from './timeline/timeline.js';
 import { PrompterServer } from './prompter/server.js';
 
@@ -76,6 +77,10 @@ program
   .option('-n, --name <name>', 'Base name for output files', 'demo')
   .option('--dry-run', 'Print what would happen without executing')
   .option('-v, --verbose', 'Show detailed output')
+  .option('-r, --record', 'Record terminal to video (requires ffmpeg)')
+  .option('--fps <fps>', 'Video frame rate', '10')
+  .option('--width <width>', 'Video width', '1280')
+  .option('--height <height>', 'Video height', '720')
   .option('--prompter', 'Start teleprompter server')
   .option('--prompter-port <port>', 'Teleprompter server port', '3456')
   .action(async (scriptPath, options) => {
@@ -103,6 +108,17 @@ program
         console.log();
       }
 
+      // Start recorder if requested
+      let recorder = null;
+      if (options.record && !options.dryRun) {
+        recorder = new TerminalRecorder({
+          fps: parseInt(options.fps, 10),
+          width: parseInt(options.width, 10),
+          height: parseInt(options.height, 10),
+        });
+        console.log(chalk.cyan(`Recording video: ${options.width}x${options.height} @ ${options.fps}fps`));
+      }
+
       // Create runner
       const runner = new DemoRunner(script, {
         outputDir,
@@ -113,6 +129,9 @@ program
       // Wire up events
       runner.on('start', ({ timestamp }) => {
         console.log(chalk.green('▶ Demo started'));
+        if (recorder) {
+          recorder.start();
+        }
       });
 
       runner.on('step-start', ({ step, index, timestamp }) => {
@@ -134,6 +153,9 @@ program
         if (options.verbose) {
           process.stdout.write(chalk.dim(data));
         }
+        if (recorder) {
+          recorder.addOutput(data);
+        }
       });
 
       runner.on('complete', async ({ timeline, duration }) => {
@@ -148,6 +170,15 @@ program
           console.log(`  Timeline: ${files.timeline}`);
           console.log(`  Markers:  ${files.markers}`);
           console.log(`  Hints:    ${files.hints}`);
+
+          // Render video if recording
+          if (recorder) {
+            recorder.stop();
+            console.log();
+            const videoPath = path.join(outputDir, `${options.name}.mp4`);
+            await recorder.render(videoPath);
+            console.log(`  Video:    ${videoPath}`);
+          }
         }
       });
 
@@ -160,6 +191,9 @@ program
       process.on('SIGINT', () => {
         console.log(chalk.yellow('\n⚠ Aborted by user'));
         runner.abort();
+        if (recorder) {
+          recorder.stop();
+        }
         if (prompter) {
           prompter.stop();
         }
