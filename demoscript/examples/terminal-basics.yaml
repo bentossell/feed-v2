@@ -1,0 +1,93 @@
+# terminal-basics.yaml
+# A demo showing basic terminal commands (works on any system)
+
+meta:
+  title: "Terminal Basics Demo"
+  estimated_duration: 45s
+
+config:
+  typing_speed: 70ms
+  typing_variance: 25ms
+  post_command_pause: 800ms
+  post_output_pause: 1.5s
+
+steps:
+  - id: intro
+    type: pause
+    duration: 2s
+    marker: speech
+    prompt: "Let me show you some basic terminal commands that every developer should know."
+
+  - id: clear_start
+    type: clear
+    marker: silence
+
+  - id: pwd_intro
+    type: pause
+    duration: 1s
+    marker: speech
+    prompt: "First, let's see where we are in the file system."
+
+  - id: pwd_cmd
+    type: command
+    text: "pwd"
+    marker: silence
+    edit_hint: zoom_region(terminal)
+
+  - id: pwd_explain
+    type: pause
+    duration: 1.5s
+    marker: speech
+    prompt: "PWD stands for 'print working directory' - it shows your current location."
+
+  - id: ls_intro
+    type: pause
+    duration: 1s
+    marker: speech
+    prompt: "Now let's list what's in this directory."
+
+  - id: ls_cmd
+    type: command
+    text: "ls -la"
+    marker: silence
+
+  - id: ls_explain
+    type: pause
+    duration: 2s
+    marker: speech
+    prompt: "The dash L A flags show all files, including hidden ones, with detailed info."
+
+  - id: mkdir_intro
+    type: pause
+    duration: 1s
+    marker: speech
+    prompt: "Let's create a new directory."
+
+  - id: mkdir_cmd
+    type: command
+    text: "mkdir demo-folder"
+    marker: speech_during
+    prompt: "mkdir creates a new directory..."
+
+  - id: cd_cmd
+    type: command
+    text: "cd demo-folder && pwd"
+    marker: speech_during
+    prompt: "...and cd changes into it."
+
+  - id: back_out
+    type: command
+    text: "cd .."
+    marker: silence
+
+  - id: cleanup
+    type: command
+    text: "rmdir demo-folder"
+    marker: speech_during
+    prompt: "And rmdir removes an empty directory."
+
+  - id: outro
+    type: pause
+    duration: 2s
+    marker: speech
+    prompt: "Those are the basics - PWD, LS, MKDIR, CD, and RMDIR. Practice these and you'll be navigating like a pro."

@@ -1,0 +1,49 @@
+# hello-world.yaml
+# A simple demo script to test the DemoScript system
+
+meta:
+  title: "Hello World Demo"
+  estimated_duration: 30s
+
+config:
+  typing_speed: 60ms
+  typing_variance: 20ms
+  post_command_pause: 500ms
+  post_output_pause: 1s
+
+steps:
+  - id: intro
+    type: pause
+    duration: 2s
+    marker: speech
+    prompt: "Let me show you a quick hello world example."
+
+  - id: echo_hello
+    type: command
+    text: "echo 'Hello, World!'"
+    marker: speech_during
+    prompt: "We'll start with a simple echo command..."
+
+  - id: pause_after_echo
+    type: pause
+    duration: 1.5s
+    marker: speech
+    prompt: "And there it is - Hello World."
+
+  - id: date_command
+    type: command
+    text: "date"
+    marker: silence
+    edit_hint: zoom_region(terminal)
+
+  - id: explain_date
+    type: pause
+    duration: 2s
+    marker: speech
+    prompt: "The date command shows the current date and time."
+
+  - id: outro
+    type: pause
+    duration: 1s
+    marker: speech
+    prompt: "That's all for this quick demo!"
