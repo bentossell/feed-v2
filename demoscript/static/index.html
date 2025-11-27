@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DemoScript Teleprompter</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <div id="app" class="prompter">
+    <!-- Connection status -->
+    <div id="status" class="status connected">
+      <span class="status-dot"></span>
+      <span class="status-text">Connected</span>
+    </div>
+
+    <!-- Main prompt area -->
+    <div id="prompt-container" class="prompt-container">
+      <div id="marker-indicator" class="marker-indicator speech">
+        <span class="marker-icon">🎤</span>
+        <span class="marker-label">SPEAK</span>
+      </div>
+
+      <div id="current-prompt" class="current-prompt">
+        <p class="prompt-text">Waiting for demo...</p>
+      </div>
+
+      <div id="progress-bar" class="progress-bar">
+        <div id="progress-fill" class="progress-fill" style="width: 0%"></div>
+        <span id="progress-time" class="progress-time">0.0s</span>
+      </div>
+    </div>
+
+    <!-- Next cue preview -->
+    <div id="next-cue" class="next-cue">
+      <span class="next-label">NEXT:</span>
+      <span id="next-text" class="next-text">[waiting]</span>
+    </div>
+
+    <!-- Controls -->
+    <div id="controls" class="controls">
+      <button id="btn-play" class="btn" title="Play">▶</button>
+      <button id="btn-pause" class="btn" title="Pause">⏸</button>
+      <button id="btn-reset" class="btn" title="Reset">⏮</button>
+      <span id="time-display" class="time-display">00:00 / 00:00</span>
+    </div>
+
+    <!-- Load timeline modal -->
+    <div id="load-modal" class="modal hidden">
+      <div class="modal-content">
+        <h3>Load Timeline</h3>
+        <input type="text" id="timeline-path" placeholder="Path to timeline JSON file">
+        <div class="modal-actions">
+          <button id="btn-load" class="btn btn-primary">Load</button>
+          <button id="btn-cancel" class="btn">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="/app.js"></script>
+</body>
+</html>

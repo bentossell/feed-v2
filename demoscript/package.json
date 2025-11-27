@@ -1,0 +1,32 @@
+{
+  "name": "demoscript",
+  "version": "0.1.0",
+  "description": "AI-directed video demo system - execute demo scripts with human-like timing and synchronized teleprompter",
+  "main": "src/index.js",
+  "type": "module",
+  "bin": {
+    "demoscript": "./src/cli.js"
+  },
+  "scripts": {
+    "start": "node src/cli.js",
+    "validate": "node src/cli.js validate",
+    "run": "node src/cli.js run",
+    "prompter": "node src/cli.js prompter"
+  },
+  "keywords": [
+    "demo",
+    "video",
+    "teleprompter",
+    "terminal",
+    "automation"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "js-yaml": "^4.1.0",
+    "node-pty": "^1.0.0",
+    "ws": "^8.18.0"
+  }
+}

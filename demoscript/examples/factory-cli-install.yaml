@@ -1,0 +1,83 @@
+# factory-cli-install.yaml
+# Demo script showing Factory CLI installation and first run
+
+meta:
+  title: "Factory CLI Getting Started"
+  estimated_duration: 90s
+
+config:
+  typing_speed: 80ms
+  typing_variance: 30ms
+  post_command_pause: 1s
+  post_output_pause: 2s
+
+steps:
+  - id: intro_pause
+    type: pause
+    duration: 2s
+    marker: speech
+    prompt: "Hey, let me show you how to get started with Factory CLI."
+
+  - id: clear_screen
+    type: clear
+    marker: silence
+
+  - id: show_install_cmd
+    type: pause
+    duration: 1s
+    marker: speech
+    prompt: "First, we'll install the CLI with a single command."
+
+  - id: install
+    type: command
+    text: "curl -fsSL https://factory.ai/install | bash"
+    wait_for: output_contains("complete")
+    timeout: 30s
+    marker: silence
+    edit_hint: zoom_region(terminal)
+
+  - id: install_done
+    type: pause
+    duration: 1.5s
+    marker: speech
+    prompt: "Once that's installed, let's authenticate."
+
+  - id: auth
+    type: command
+    text: "factory auth"
+    wait_for: output_contains("Authenticated")
+    timeout: 15s
+    marker: speech_during
+    prompt: "Just run factory auth and follow the browser prompt..."
+
+  - id: auth_complete
+    type: pause
+    duration: 1s
+    marker: speech
+    prompt: "Perfect, we're now connected to your Factory account."
+
+  - id: explain_droid
+    type: pause
+    duration: 1.5s
+    marker: speech
+    prompt: "Now let's run our first droid - just describe what you want done."
+
+  - id: first_droid
+    type: command
+    text: "factory run 'fix the bug in auth.py'"
+    wait_for: exit_code(0)
+    timeout: 60s
+    marker: silence
+    edit_hint: speed(1.5x)
+
+  - id: droid_complete
+    type: pause
+    duration: 2s
+    marker: speech
+    prompt_after: "And that's it - your first droid run. It analyzed the code, found the bug, and fixed it automatically."
+
+  - id: outro
+    type: pause
+    duration: 1s
+    marker: speech
+    prompt: "Check out our docs for more advanced features. Thanks for watching!"
