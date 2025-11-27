@@ -5,6 +5,7 @@ node_modules/
 recordings/
 *.mov
 *.mp4
+!demos/*.mp4
 
 # Timeline/marker files (generated)
 *-timeline.json
